@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:loggy/loggy.dart';
 
 import '../../domain/use_case/authentication.dart';
 
@@ -25,11 +25,11 @@ class AuthenticationController extends GetxController {
   Future<bool> login(user, password) async {
     bool rta = await _authentication.login(user, password);
     if (rta) {
-      print("Login ok");
+      logInfo("Login ok");
       _logged.value = true;
       return Future.value(true);
     }
-    print("Login nok");
+    logInfo("Login nok");
     _logged.value = false;
     return Future.value(false);
   }

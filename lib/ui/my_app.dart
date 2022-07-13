@@ -6,6 +6,8 @@ import 'pages/pages/authentication/login_page.dart';
 import 'pages/pages/home/content.dart';
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -27,9 +29,9 @@ class _MyAppState extends State<MyApp> {
         home: GetX<AuthenticationController>(
           builder: (controller) {
             if (controller.logged) {
-              return Content();
+              return const Content();
             }
-            return LoginPage();
+            return const LoginPage();
           },
         ));
   }

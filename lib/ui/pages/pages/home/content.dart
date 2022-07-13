@@ -4,6 +4,8 @@ import 'home_page.dart';
 import 'profile_page.dart';
 
 class Content extends StatefulWidget {
+  const Content({Key? key}) : super(key: key);
+
   @override
   _ContentState createState() => _ContentState();
 }
@@ -25,7 +27,7 @@ class _ContentState extends State<Content> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: Key('contentScaffold'),
+        key: const Key('contentScaffold'),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),

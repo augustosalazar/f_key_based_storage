@@ -7,6 +7,7 @@ import 'package:f_shared_prefs/ui/pages/pages/authentication/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
 import 'package:mockito/mockito.dart';
 
 class MockAuthenticationController extends GetxService
@@ -32,7 +33,7 @@ class MockAuthenticationController extends GetxService
 class MockAuthentication extends Mock implements Authentication {
   @override
   Future<bool> get init async {
-    print('MockAuthentication init');
+    logInfo('MockAuthentication init');
     return Future.value(true);
   }
 }
@@ -50,7 +51,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       const MaterialApp(
-        home: const LoginPage(),
+        home: LoginPage(),
       ),
     );
     await tester.pump();
@@ -76,7 +77,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       const MaterialApp(
-        home: const LoginPage(),
+        home: LoginPage(),
       ),
     );
     await tester.pump();

@@ -1,13 +1,11 @@
 // This is a basic Flutter widget test.
 
-import 'package:f_shared_prefs/domain/use_case/authentication.dart';
 import 'package:f_shared_prefs/ui/controllers/authentication_controller.dart';
 import 'package:f_shared_prefs/ui/pages/pages/authentication/login_page.dart';
 import 'package:f_shared_prefs/ui/pages/pages/authentication/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:loggy/loggy.dart';
 import 'package:mockito/mockito.dart';
 
 class MockAuthenticationController extends GetxService
@@ -32,18 +30,8 @@ class MockAuthenticationController extends GetxService
   }
 }
 
-class MockAuthentication extends Mock implements Authentication {
-  @override
-  Future<bool> get init async {
-    logInfo('MockAuthentication init');
-    return Future.value(true);
-  }
-}
-
 void main() {
   setUp(() {
-    final MockAuthentication mockAuthentication = MockAuthentication();
-    Get.put<Authentication>(mockAuthentication);
     final controller = MockAuthenticationController();
     Get.put<AuthenticationController>(controller);
   });
@@ -64,7 +52,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('loginEmail')), 'a@a.com');
 
-    await tester.enterText(find.byKey(const Key('loginPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('loginSubmit')));
 
@@ -90,7 +78,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('loginEmail')), 'b@a.com');
 
-    await tester.enterText(find.byKey(const Key('loginPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('loginSubmit')));
 
@@ -114,7 +102,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('signUpEmail')), 'a@a.com');
 
-    await tester.enterText(find.byKey(const Key('signUpPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('signUpSubmit')));
 
@@ -138,7 +126,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('signUpEmail')), 'b@a.com');
 
-    await tester.enterText(find.byKey(const Key('signUpPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('signUpSubmit')));
 
@@ -163,12 +151,12 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('signUpEmail')), 'a');
 
-    await tester.enterText(find.byKey(const Key('signUpPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('signUpSubmit')));
 
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.text('Validation nok'), findsOneWidget);
+    expect(find.text('Enter valid email address'), findsOneWidget);
   });
 }

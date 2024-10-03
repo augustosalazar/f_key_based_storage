@@ -4,7 +4,7 @@ import 'package:loggy/loggy.dart';
 import '../../domain/use_case/authentication.dart';
 
 class AuthenticationController extends GetxController {
-  var _logged = false.obs;
+  final _logged = false.obs;
   final Authentication _authentication = Get.find<Authentication>();
 
   void initializeRoute() async {

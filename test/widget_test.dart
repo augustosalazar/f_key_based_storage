@@ -15,18 +15,20 @@ class MockAuthenticationController extends GetxService
     implements AuthenticationController {
   @override
   Future<bool> login(user, password) {
-    if (user == 'a@a.com')
+    if (user == 'a@a.com') {
       return Future.value(true);
-    else
+    } else {
       return Future.value(false);
+    }
   }
 
   @override
   Future<bool> signup(user, password) {
-    if (user == 'a@a.com')
+    if (user == 'a@a.com') {
       return Future.value(true);
-    else
+    } else {
       return Future.value(false);
+    }
   }
 }
 
@@ -40,8 +42,8 @@ class MockAuthentication extends Mock implements Authentication {
 
 void main() {
   setUp(() {
-    final MockAuthentication _mockAuthentication = MockAuthentication();
-    Get.put<Authentication>(_mockAuthentication);
+    final MockAuthentication mockAuthentication = MockAuthentication();
+    Get.put<Authentication>(mockAuthentication);
     final controller = MockAuthenticationController();
     Get.put<AuthenticationController>(controller);
   });
@@ -103,7 +105,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       const GetMaterialApp(
-        home: const SignUpPage(),
+        home: SignUpPage(),
       ),
     );
     await tester.pump();
@@ -152,7 +154,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       const GetMaterialApp(
-        home: const SignUpPage(),
+        home: SignUpPage(),
       ),
     );
     await tester.pump();

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../controllers/authentication_controller.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

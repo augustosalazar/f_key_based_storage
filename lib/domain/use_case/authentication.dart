@@ -1,5 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:loggy/loggy.dart';
 import '../../data/repositories/local_preferences.dart';
 
 class Authentication {
@@ -13,20 +12,20 @@ class Authentication {
     var savedPassword =
         await _sharedPreferences.retrieveData<String>('password') ?? "";
     if (savedUser == user && savedPassword == password) {
-      await _sharedPreferences.storeData<bool>('logged', true);
+      await _sharedPreferences.storeData('logged', true);
       return Future.value(true);
     }
     return Future.value(false);
   }
 
   Future<void> signup(user, password) async {
-    _sharedPreferences.storeData<String>('user', user).then((value) async =>
+    _sharedPreferences.storeData('user', user).then((value) async =>
         _sharedPreferences
-            .storeData<String>('password', password)
-            .then((value) => print("Save ok")));
+            .storeData('password', password)
+            .then((value) => logInfo("Save ok")));
   }
 
   void logout() async {
-    await _sharedPreferences.storeData<bool>('logged', false);
+    await _sharedPreferences.storeData('logged', false);
   }
 }

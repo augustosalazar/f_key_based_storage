@@ -1,48 +1,50 @@
+import 'package:loggy/loggy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalPreferences {
   Future<T?> retrieveData<T>(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    dynamic value;
-    switch (T) {
-      case bool:
-        value = prefs.getBool(key);
-        break;
-      case double:
-        value = prefs.getDouble(key);
-        break;
-      case int:
-        value = prefs.getInt(key);
-        break;
-      case String:
-        value = prefs.getString(key);
-        break;
-      case List:
-        value = prefs.getStringList(key);
-        break;
+
+    if (T == bool) {
+      return prefs.getBool(key) as T?;
+    } else if (T == double) {
+      return prefs.getDouble(key) as T?;
+    } else if (T == int) {
+      return prefs.getInt(key) as T?;
+    } else if (T == String) {
+      return prefs.getString(key) as T?;
+    } else if (T == List<String>) {
+      return prefs.getStringList(key) as T?;
+    } else {
+      throw Exception("Unsupported type");
     }
-    return value as T?;
   }
 
-  Future<void> storeData<T>(String key, T value) async {
+  Future<void> storeData(String key, dynamic value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    switch (T) {
-      case bool:
-        prefs.setBool(key, value as bool).then((value) => print("ok"));
-        print("LocalPreferences setBool with key $key got $value");
-        break;
-      case double:
-        prefs.setDouble(key, value as double);
-        break;
-      case int:
-        prefs.setInt(key, value as int);
-        break;
-      case String:
-        prefs.setString(key, value as String);
-        break;
-      case List:
-        prefs.setStringList(key, value as List<String>);
-        break;
+    bool result = false;
+
+    if (value is bool) {
+      result = await prefs.setBool(key, value);
+      logInfo("LocalPreferences setBool with key $key got $result");
+    } else if (value is double) {
+      result = await prefs.setDouble(key, value);
+      logInfo("LocalPreferences setDouble with key $key got $result");
+    } else if (value is int) {
+      result = await prefs.setInt(key, value);
+      logInfo("LocalPreferences setInt with key $key got $result");
+    } else if (value is String) {
+      result = await prefs.setString(key, value);
+      logInfo("LocalPreferences setString with key $key got $result");
+    } else if (value is List<String>) {
+      result = await prefs.setStringList(key, value);
+      logInfo("LocalPreferences setStringList with key $key got $result");
+    } else {
+      throw Exception("Unsupported type");
+    }
+
+    if (!result) {
+      logInfo("Failed to store $key with value $value");
     }
   }
 }

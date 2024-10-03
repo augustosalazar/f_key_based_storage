@@ -21,8 +21,13 @@ jobs:
       - name: 🌐 Flutter Enable Web
         run: flutter config --enable-web
 
-      - name: 🚀 Install Chrome
-        run: brew install --cask google-chrome
+      - name: 🚀 Install Chrome and ChromeDriver
+        run: |
+          brew install --cask google-chrome
+          brew install chromedriver
+
+      - name: 🔄 Start ChromeDriver
+        run: chromedriver --port=4444 &      
 
       - name: 🧪 Run Integration test
         run: |

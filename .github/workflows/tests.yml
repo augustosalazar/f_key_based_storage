@@ -21,11 +21,9 @@ jobs:
       - name: 🌐 Flutter Enable Web
         run: flutter config --enable-web
 
-      - name: 🚀 Start Safari Driver
-        run: |
-          sudo safaridriver --enable
-          safaridriver --port 4444 &
+      - name: 🚀 Install Chrome
+        run: brew install --cask google-chrome
 
       - name: 🧪 Run Integration test
         run: |
-          flutter drive -v --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --release --browser-name=safari
+          flutter drive -v --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --release --browser-name=chrome

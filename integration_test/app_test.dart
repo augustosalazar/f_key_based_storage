@@ -35,7 +35,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('signUpEmail')), 'a@a.com');
 
-    await tester.enterText(find.byKey(const Key('signUpPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('signUpSubmit')));
 
@@ -89,7 +89,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('signUpEmail')), 'a@a.com');
 
-    await tester.enterText(find.byKey(const Key('signUpPassord')), '123456');
+    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
 
     await tester.tap(find.byKey(const Key('signUpSubmit')));
 

@@ -46,6 +46,15 @@ void main() {
     //verify that we are in login page
     expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
     //login
+
+    await tester.enterText(find.byKey(const Key('loginEmail')), 'b@b.com');
+
+    await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
+
+    await tester.tap(find.byKey(const Key('loginSubmit')));
+
+    await tester.pumpAndSettle();
+
     await tester.enterText(find.byKey(const Key('loginEmail')), 'a@a.com');
 
     await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
@@ -67,40 +76,8 @@ void main() {
 
     //verify that we are in login page
     expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
-  });
 
-  testWidgets("Authentication signup ok and login fail",
-      (WidgetTester tester) async {
-    Widget w = await createHomeScreen();
-    await tester.pumpWidget(w);
-
-    //verify that we are in login page
-    expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
-
-    expect(find.byKey(const Key('loginEmail')), findsNWidgets(1));
-
-    // go to sign in
-    await tester.tap(find.byKey(const Key('loginCreateUser')));
-
-    await tester.pumpAndSettle();
-
-    //verify that we are in signup page
-    expect(find.byKey(const Key('signUpScaffold')), findsOneWidget);
-
-    await tester.enterText(find.byKey(const Key('signUpEmail')), 'a@a.com');
-
-    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
-
-    await tester.tap(find.byKey(const Key('signUpSubmit')));
-
-    await tester.pumpAndSettle();
-
-    //expect(find.text('User ok'), findsOneWidget);
-
-    //verify that we are in login page
-    expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
-    //login
-    await tester.enterText(find.byKey(const Key('loginEmail')), 'b@b.com');
+    await tester.enterText(find.byKey(const Key('loginEmail')), 'a@a.com');
 
     await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
 
@@ -108,7 +85,50 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    //verify that we are in login page
-    expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
+    //verify that we are in content page
+    expect(find.byKey(const Key('contentScaffold')), findsOneWidget);
   });
+
+  // testWidgets("Authentication signup ok and login fail",
+  //     (WidgetTester tester) async {
+  //   Widget w = await createHomeScreen();
+  //   await tester.pumpWidget(w);
+
+  //   //verify that we are in login page
+  //   expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
+
+  //   expect(find.byKey(const Key('loginEmail')), findsNWidgets(1));
+
+  //   // go to sign in
+  //   await tester.tap(find.byKey(const Key('loginCreateUser')));
+
+  //   await tester.pumpAndSettle();
+
+  //   //verify that we are in signup page
+  //   expect(find.byKey(const Key('signUpScaffold')), findsOneWidget);
+
+  //   await tester.enterText(find.byKey(const Key('signUpEmail')), 'a@a.com');
+
+  //   await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
+
+  //   await tester.tap(find.byKey(const Key('signUpSubmit')));
+
+  //   await tester.pumpAndSettle();
+
+  //   //expect(find.text('User ok'), findsOneWidget);
+
+  //   //verify that we are in login page
+  //   expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
+  //   //login
+  //   await tester.enterText(find.byKey(const Key('loginEmail')), 'b@b.com');
+
+  //   await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
+
+  //   await tester.tap(find.byKey(const Key('loginSubmit')));
+
+  //   await tester.pumpAndSettle();
+
+  //   //verify that we are in login page
+  //   expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
+  // });
 }

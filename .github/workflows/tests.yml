@@ -5,30 +5,49 @@ on:
     branches: [ "master" , "main" ]
   
 jobs:
-  integration-test:
-    name: Run Smoke Tests
-    runs-on: macos-latest
+  IOS:
+    runs-on: macOS-latest
+
     steps:
-      - name: 📚 Git Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: 🦋 Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: futureware-tech/simulator-action@v3
         with:
-          channel: "stable"
-          cache: true
+          model: 'iPhone 14'
 
-      - name: 🌐 Flutter Enable Web
-        run: flutter config --enable-web
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
 
-      - name: 🚀 Install Chrome and ChromeDriver
-        run: |
-          brew install --cask google-chrome
-          brew install chromedriver
+      - run: flutter pub get
+      - run: flutter test integration_test/app_test.dart
 
-      - name: 🔄 Start ChromeDriver
-        run: chromedriver --port=4444 &      
 
-      - name: 🧪 Run Integration test
-        run: |
-          flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --release --browser-name=chrome
+
+  # integration-test:
+  #   name: Run Smoke Tests
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: 📚 Git Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: 🦋 Setup Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         channel: "stable"
+  #         cache: true
+
+  #     - name: 🌐 Flutter Enable Web
+  #       run: flutter config --enable-web
+
+  #     - name: 🚀 Install Chrome and ChromeDriver
+  #       run: |
+  #         brew install --cask google-chrome
+  #         brew install chromedriver
+
+  #     - name: 🔄 Start ChromeDriver
+  #       run: chromedriver --port=4444 &      
+
+  #     - name: 🧪 Run Integration test
+  #       run: |
+  #         flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --release --browser-name=chrome

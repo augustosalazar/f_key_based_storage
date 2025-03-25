@@ -1,8 +1,12 @@
+import 'package:f_shared_prefs/domain/repositories/i_auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
-import 'domain/use_case/authentication.dart';
-import 'ui/controllers/authentication_controller.dart';
+import 'data/datasources/i_local_auth_source.dart';
+import 'data/datasources/shared_prefs/shared_pref_local_auth_source.dart';
+import 'data/repositories/auth_repo.dart';
+import 'domain/use_case/auth_use_case.dart';
+import 'ui/controllers/auth_controller.dart';
 import 'ui/my_app.dart';
 
 void main() {
@@ -14,7 +18,9 @@ void main() {
     ),
   );
 
-  Get.lazyPut<Authentication>(() => Authentication());
-  Get.put(AuthenticationController());
+  Get.put<ILocalAuthSource>(SharedPrefLocalAuthSource());
+  Get.put<IAuthRepo>(AuthRepo(Get.find()));
+  Get.put(AuthUseCase(Get.find()));
+  Get.put(AuthController(Get.find()));
   runApp(const MyApp());
 }

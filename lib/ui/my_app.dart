@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'controllers/authentication_controller.dart';
+import 'controllers/auth_controller.dart';
 import 'pages/pages/authentication/login_page.dart';
 import 'pages/pages/home/content.dart';
 
@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  AuthenticationController authenticationController = Get.find();
+  AuthController authenticationController = Get.find();
 
   @override
   initState() {
@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Authentication Flow',
         themeMode: ThemeMode.system,
-        home: GetX<AuthenticationController>(
+        home: GetX<AuthController>(
           builder: (controller) {
             if (controller.logged) {
               return const Content();

@@ -1,6 +1,6 @@
 // This is a basic Flutter widget test.
 
-import 'package:f_shared_prefs/ui/controllers/authentication_controller.dart';
+import 'package:f_shared_prefs/ui/controllers/auth_controller.dart';
 import 'package:f_shared_prefs/ui/pages/pages/authentication/login_page.dart';
 import 'package:f_shared_prefs/ui/pages/pages/authentication/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:mockito/mockito.dart';
 
 class MockAuthenticationController extends GetxService
     with Mock
-    implements AuthenticationController {
+    implements AuthController {
   @override
   Future<bool> login(user, password) {
     if (user == 'a@a.com') {
@@ -33,7 +33,7 @@ class MockAuthenticationController extends GetxService
 void main() {
   setUp(() {
     final controller = MockAuthenticationController();
-    Get.put<AuthenticationController>(controller);
+    Get.put<AuthController>(controller);
   });
   testWidgets('Login ok widget testing', (WidgetTester tester) async {
     WidgetsFlutterBinding.ensureInitialized();

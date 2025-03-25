@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/authentication_controller.dart';
+import '../../../controllers/auth_controller.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationController controller = Get.find();
+    AuthController controller = Get.find();
     return Center(
         child: ElevatedButton(
       key: const Key('profileLogout'),

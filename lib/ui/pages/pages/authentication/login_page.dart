@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/authentication_controller.dart';
+import '../../../controllers/auth_controller.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  AuthenticationController controller = Get.find<AuthenticationController>();
+  AuthController controller = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +104,11 @@ class _LoginPageState extends State<LoginPage> {
                     FocusScope.of(context).unfocus();
                     final form = _formKey.currentState;
                     if (form!.validate()) {
-                      var value = await controller.login(
-                          _emailController.text, _passwordController.text);
-                      if (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('User ok')));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('User problem')));
+                      try {
+                        await controller.login(
+                            _emailController.text, _passwordController.text);
+                      } catch (e) {
+                        Get.snackbar('Error', e as String);
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

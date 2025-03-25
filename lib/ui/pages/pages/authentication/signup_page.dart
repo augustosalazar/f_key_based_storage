@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controllers/authentication_controller.dart';
+import '../../../controllers/auth_controller.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -16,7 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationController controller = Get.find();
+    AuthController controller = Get.find();
     return Scaffold(
       key: const Key('signUpScaffold'),
       body: LayoutBuilder(
@@ -48,7 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildSignUpForm(AuthenticationController controller) {
+  Widget _buildSignUpForm(AuthController controller) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -94,33 +94,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  key: const Key('signUpSubmit'),
-                  onPressed: () {
-                    // Dismiss the keyboard
-                    FocusScope.of(context).unfocus();
-                    final form = _formKey.currentState;
-                    form!.save();
-                    if (form.validate()) {
-                      controller
-                          .signup(
-                              _emailController.text, _passwordController.text)
-                          .then((value) {
-                        if (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('User ok')));
-                          Get.back();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('User problem')));
+                    key: const Key('signUpSubmit'),
+                    child: const Text("Submit"),
+                    onPressed: () {
+                      // Dismiss the keyboard
+                      FocusScope.of(context).unfocus();
+                      final form = _formKey.currentState;
+                      form!.save();
+                      if (form.validate()) {
+                        try {
+                          controller.signup(
+                              _emailController.text, _passwordController.text);
+                        } catch (e) {
+                          Get.snackbar('Error', e as String);
                         }
-                      });
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Validation nok')));
-                    }
-                  },
-                  child: const Text("Submit"),
-                ),
+                        Get.snackbar('Success', 'User created');
+                        Get.back();
+                      }
+                    }),
               ],
             ),
           ),

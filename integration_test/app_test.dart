@@ -1,5 +1,5 @@
-import 'package:f_shared_prefs/domain/use_case/authentication.dart';
-import 'package:f_shared_prefs/ui/controllers/authentication_controller.dart';
+import 'package:f_shared_prefs/domain/use_case/auth_use_case.dart';
+import 'package:f_shared_prefs/ui/controllers/auth_controller.dart';
 import 'package:f_shared_prefs/ui/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,8 +8,8 @@ import 'package:integration_test/integration_test.dart';
 
 Future<Widget> createHomeScreen() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.lazyPut<Authentication>(() => Authentication());
-  Get.lazyPut<AuthenticationController>(() => AuthenticationController());
+  Get.lazyPut<AuthUseCase>(() => AuthUseCase());
+  Get.lazyPut<AuthController>(() => AuthController());
   return const MyApp();
 }
 

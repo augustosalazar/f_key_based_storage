@@ -1,3 +1,7 @@
+import 'package:f_shared_prefs/data/datasources/i_local_auth_source.dart';
+import 'package:f_shared_prefs/data/datasources/shared_prefs/shared_pref_local_auth_source.dart';
+import 'package:f_shared_prefs/data/repositories/auth_repo.dart';
+import 'package:f_shared_prefs/domain/repositories/i_auth_repo.dart';
 import 'package:f_shared_prefs/domain/use_case/auth_use_case.dart';
 import 'package:f_shared_prefs/ui/controllers/auth_controller.dart';
 import 'package:f_shared_prefs/ui/my_app.dart';
@@ -8,8 +12,10 @@ import 'package:integration_test/integration_test.dart';
 
 Future<Widget> createHomeScreen() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.lazyPut<AuthUseCase>(() => AuthUseCase());
-  Get.lazyPut<AuthController>(() => AuthController());
+  Get.put<ILocalAuthSource>(SharedPrefLocalAuthSource());
+  Get.put<IAuthRepo>(AuthRepo(Get.find()));
+  Get.put(AuthUseCase(Get.find()));
+  Get.put(AuthController(Get.find()));
   return const MyApp();
 }
 

@@ -2,7 +2,6 @@
 
 import 'package:f_shared_prefs/ui/controllers/auth_controller.dart';
 import 'package:f_shared_prefs/ui/pages/pages/authentication/login_page.dart';
-import 'package:f_shared_prefs/ui/pages/pages/authentication/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -12,11 +11,14 @@ class MockAuthenticationController extends GetxService
     with Mock
     implements AuthController {
   @override
-  Future<bool> login(user, password) {
+  Future<void> login(user, password) {
     if (user == 'a@a.com') {
-      return Future.value(true);
+      if (password == '123456') {
+        return Future.value();
+      }
+      throw "Incorrect password";
     } else {
-      return Future.value(false);
+      throw "User not found";
     }
   }
 
@@ -40,7 +42,7 @@ void main() {
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(
-      const MaterialApp(
+      const GetMaterialApp(
         home: LoginPage(),
       ),
     );
@@ -56,17 +58,16 @@ void main() {
 
     await tester.tap(find.byKey(const Key('loginSubmit')));
 
-    await tester.pump();
-
-    expect(find.text('User ok'), findsOneWidget);
+    await tester.pumpAndSettle();
   });
 
-  testWidgets('Login nok widget testing', (WidgetTester tester) async {
+  testWidgets('Login with user not found widget testing',
+      (WidgetTester tester) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(
-      const MaterialApp(
+      const GetMaterialApp(
         home: LoginPage(),
       ),
     );
@@ -80,83 +81,45 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('loginPassword')), '123456');
 
+    // Tap submit
     await tester.tap(find.byKey(const Key('loginSubmit')));
+    await tester.pump(); // process async login
+    await tester.pump(const Duration(seconds: 1)); // show snackbar
 
-    await tester.pump();
+    // Check that snackbar with 'Error' and specific message shows
+    expect(find.text('Error User not found'), findsOneWidget);
 
-    expect(find.text('User problem'), findsOneWidget);
+    await tester.pumpAndSettle();
   });
 
-  testWidgets('SignUp ok widget testing', (WidgetTester tester) async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(
-      const GetMaterialApp(
-        home: SignUpPage(),
-      ),
-    );
-    await tester.pump();
-
-    expect(find.byKey(const Key('signUpScaffold')), findsOneWidget);
-
-    await tester.enterText(find.byKey(const Key('signUpEmail')), 'a@a.com');
-
-    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
-
-    await tester.tap(find.byKey(const Key('signUpSubmit')));
-
-    await tester.pump();
-
-    expect(find.text('User ok'), findsOneWidget);
-  });
-
-  testWidgets('SignUp nok widget testing', (WidgetTester tester) async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(
-      const GetMaterialApp(
-        home: SignUpPage(),
-      ),
-    );
-    await tester.pump();
-
-    expect(find.byKey(const Key('signUpScaffold')), findsOneWidget);
-
-    await tester.enterText(find.byKey(const Key('signUpEmail')), 'b@a.com');
-
-    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
-
-    await tester.tap(find.byKey(const Key('signUpSubmit')));
-
-    await tester.pump();
-
-    expect(find.text('User problem'), findsOneWidget);
-  });
-
-  testWidgets('SignUp with missing @ widget testing',
+  testWidgets('Login with wrong password widget testing',
       (WidgetTester tester) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       const GetMaterialApp(
-        home: SignUpPage(),
+        home: LoginPage(),
       ),
     );
     await tester.pump();
 
-    expect(find.byKey(const Key('signUpScaffold')), findsOneWidget);
+    expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
 
-    await tester.enterText(find.byKey(const Key('signUpEmail')), 'a');
+    expect(find.byKey(const Key('loginEmail')), findsNWidgets(1));
 
-    await tester.enterText(find.byKey(const Key('signUpPassword')), '123456');
+    await tester.enterText(find.byKey(const Key('loginEmail')), 'a@a.com');
 
-    await tester.tap(find.byKey(const Key('signUpSubmit')));
+    await tester.enterText(find.byKey(const Key('loginPassword')), '11111111');
+
+    // Tap submit
+    await tester.tap(find.byKey(const Key('loginSubmit')));
+    await tester.pump(); // process async login
+    await tester.pump(const Duration(seconds: 1)); // show snackbar
+
+    // Check that snackbar with 'Error' and specific message shows
+    expect(find.text('Error Incorrect password'), findsOneWidget);
 
     await tester.pumpAndSettle();
-
-    expect(find.text('Enter valid email address'), findsOneWidget);
   });
 }

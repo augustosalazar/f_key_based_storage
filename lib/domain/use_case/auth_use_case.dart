@@ -12,9 +12,14 @@ class AuthUseCase {
     try {
       User user = await _authenticationRepo.getUserFromEmail(email);
       if (user.password != password) {
-        throw "Login nok";
+        throw "Incorrect password";
       }
     } catch (e) {
+      // If it was already a known error, rethrow it
+      if (e == "Incorrect password") {
+        rethrow;
+      }
+
       throw "User not found";
     }
     await _authenticationRepo.setLoggedIn();

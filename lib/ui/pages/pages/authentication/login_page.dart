@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/auth_controller.dart';
+import '../../../widgets/responsive_widget.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,36 +20,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: const Key('loginScaffold'),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Web-specific styling when the screen width is larger than 800 pixels
-          return Center(
-            child: Container(
-              width: constraints.maxWidth > 800 ? 800 : double.infinity,
-              padding: const EdgeInsets.all(16.0),
-              decoration: constraints.maxWidth > 800
-                  ? BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    )
-                  : null,
-              child: _buildLoginForm(),
-            ),
-          );
-        },
+    return ResponsiveContainer(
+      child: Scaffold(
+        key: const Key('loginScaffold'),
+        body: _buildLoginForm(),
       ),
-      backgroundColor: Colors.blueGrey[50], // Background for web separation
     );
   }
 
@@ -108,7 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                         await controller.login(
                             _emailController.text, _passwordController.text);
                       } catch (e) {
-                        Get.snackbar('Error', e as String);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error $e')),
+                        );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

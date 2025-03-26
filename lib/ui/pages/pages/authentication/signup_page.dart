@@ -18,6 +18,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     AuthController controller = Get.find();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sign Up'),
+      ),
       key: const Key('signUpScaffold'),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -96,19 +99,19 @@ class _SignUpPageState extends State<SignUpPage> {
                 ElevatedButton(
                     key: const Key('signUpSubmit'),
                     child: const Text("Submit"),
-                    onPressed: () {
+                    onPressed: () async {
                       // Dismiss the keyboard
                       FocusScope.of(context).unfocus();
                       final form = _formKey.currentState;
                       form!.save();
                       if (form.validate()) {
                         try {
-                          controller.signup(
+                          await controller.signup(
                               _emailController.text, _passwordController.text);
                         } catch (e) {
                           Get.snackbar('Error', e as String);
                         }
-                        Get.snackbar('Success', 'User created');
+
                         Get.back();
                       }
                     }),

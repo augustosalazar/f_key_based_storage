@@ -6,4 +6,5 @@ abstract class ILocalAuthSource {
   Future<bool> isLogged();
   Future<String> getLoggedUser();
   Future<User> getUserFromEmail(email);
+  Future<void> setLoggedIn();
 }

@@ -1,35 +1,45 @@
 import 'package:f_shared_prefs/domain/entities/user.dart';
 
 import '../i_local_auth_source.dart';
+import 'local_preferences.dart';
 
 class SharedPrefLocalAuthSource implements ILocalAuthSource {
+  final _sharedPreferences = LocalPreferences();
+
   @override
-  Future<String> getLoggedUser() {
-    // TODO: implement getLoggedUser
-    throw UnimplementedError();
+  Future<String> getLoggedUser() async {
+    return await _sharedPreferences.retrieveData<String>('user') ?? "noUser";
   }
 
   @override
-  Future<User> getUserFromEmail(email) {
-    // TODO: implement getUserFromEmail
-    throw UnimplementedError();
+  Future<User> getUserFromEmail(email) async {
+    String user = await _sharedPreferences.retrieveData<String>('user') ?? "";
+    String password =
+        await _sharedPreferences.retrieveData<String>('password') ?? "";
+    if (user == email) {
+      return User(email: user, password: password);
+    }
+    throw "User not found";
   }
 
   @override
-  Future<bool> isLogged() {
-    // TODO: implement isLogged
-    throw UnimplementedError();
+  Future<bool> isLogged() async {
+    return await _sharedPreferences.retrieveData<bool>('logged') ?? false;
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async {
+    await _sharedPreferences.storeData('logged', false);
   }
 
   @override
-  Future<void> signup(email, password) {
-    // TODO: implement signup
-    throw UnimplementedError();
+  Future<void> signup(email, password) async {
+    await _sharedPreferences.storeData('user', email);
+    await _sharedPreferences.storeData('password', password);
+  }
+
+  @override
+  Future<void> setLoggedIn() async {
+    await _sharedPreferences.storeData('logged', false);
   }
 }

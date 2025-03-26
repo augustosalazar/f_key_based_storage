@@ -1,36 +1,30 @@
 import 'package:f_shared_prefs/domain/repositories/i_auth_repo.dart';
-import 'package:loggy/loggy.dart';
-import '../../data/datasources/local_preferences.dart';
+import '../entities/user.dart';
 
 class AuthUseCase {
-  final _sharedPreferences = LocalPreferences();
   final IAuthRepo _authenticationRepo;
 
   AuthUseCase(this._authenticationRepo);
 
-  Future<bool> get init async =>
-      await _sharedPreferences.retrieveData<bool>('logged') ?? false;
+  Future<bool> get init async => await _authenticationRepo.isLogged();
 
   Future<void> login(email, password) async {
-    var savedUser = await _sharedPreferences.retrieveData<String>('user') ?? "";
-    var savedPassword =
-        await _sharedPreferences.retrieveData<String>('password') ?? "";
-    if (savedUser == email && savedPassword == password) {
-      await _sharedPreferences.storeData('logged', true);
-      return Future.value(true);
+    try {
+      User user = await _authenticationRepo.getUserFromEmail(email);
+      if (user.password != password) {
+        throw "Login nok";
+      }
+    } catch (e) {
+      throw "User not found";
     }
-    throw "Login nok";
+    await _authenticationRepo.setLoggedIn();
   }
 
   Future<void> signup(email, password) async {
-    _sharedPreferences.storeData('user', email).then((value) async =>
-        _sharedPreferences
-            .storeData('password', password)
-            .then((value) => logInfo("Save ok")));
-    throw "User already exists";
+    return await _authenticationRepo.signup(email, password);
   }
 
   Future<void> logout() async {
-    await _sharedPreferences.storeData('logged', false);
+    await _authenticationRepo.logout();
   }
 }

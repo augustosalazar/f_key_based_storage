@@ -6,4 +6,5 @@ abstract class IAuthRepo {
   Future<void> logout();
   Future<bool> isLogged();
   Future<String> getLoggedUser();
+  Future<void> setLoggedIn();
 }

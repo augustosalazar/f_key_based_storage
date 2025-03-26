@@ -32,4 +32,9 @@ class AuthRepo implements IAuthRepo {
   Future<bool> isLogged() async {
     return localAuthSource.isLogged();
   }
+
+  @override
+  Future<void> setLoggedIn() async {
+    return localAuthSource.setLoggedIn();
+  }
 }

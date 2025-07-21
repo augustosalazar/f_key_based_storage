@@ -1,7 +1,7 @@
 import 'package:f_shared_prefs/domain/entities/user.dart';
 
-import '../i_local_auth_source.dart';
-import 'local_preferences.dart';
+import 'i_local_auth_source.dart';
+import '../../core/local_preferences.dart';
 
 class SharedPrefLocalAuthSource implements ILocalAuthSource {
   final _sharedPreferences = LocalPreferences();

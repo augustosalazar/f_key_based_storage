@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 import 'data/datasources/i_local_auth_source.dart';
-import 'data/datasources/shared_prefs/shared_pref_local_auth_source.dart';
+import 'data/datasources/shared_pref_local_auth_source.dart';
 import 'data/repositories/auth_repo.dart';
 import 'domain/use_case/auth_use_case.dart';
 import 'ui/controllers/auth_controller.dart';

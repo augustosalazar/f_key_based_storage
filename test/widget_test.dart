@@ -1,7 +1,7 @@
 // This is a basic Flutter widget test.
 
 import 'package:f_shared_prefs/ui/controllers/auth_controller.dart';
-import 'package:f_shared_prefs/ui/pages/pages/authentication/login_page.dart';
+import 'package:f_shared_prefs/ui/pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';

@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../core/app_theme.dart';
 import 'controllers/auth_controller.dart';
-import 'pages/pages/authentication/login_page.dart';
-import 'pages/pages/home/content.dart';
+import 'pages/authentication/login_page.dart';
+import 'pages/home/content.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  AuthController authenticationController = Get.find();
-
-  @override
-  initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Authentication Flow',
-        themeMode: ThemeMode.system,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
         home: GetX<AuthController>(
           builder: (controller) {
             if (controller.logged) {

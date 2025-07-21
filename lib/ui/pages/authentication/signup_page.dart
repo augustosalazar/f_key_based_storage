@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controllers/auth_controller.dart';
-import '../../../widgets/responsive_widget.dart';
+import '../../controllers/auth_controller.dart';
+import '../../widgets/responsive_widget.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -47,7 +47,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 TextFormField(
                   key: const Key('signUpEmail'),
                   controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(
+                    labelText: "Email address",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Enter email";
@@ -61,7 +66,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 TextFormField(
                   key: const Key('signUpPassword'),
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: "Password"),
+                  decoration: const InputDecoration(
+                    labelText: "Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
                   keyboardType: TextInputType.number,
                   obscureText: true,
                   validator: (value) {
@@ -74,27 +84,33 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                    key: const Key('signUpSubmit'),
-                    child: const Text("Submit"),
-                    onPressed: () async {
-                      // Dismiss the keyboard
-                      FocusScope.of(context).unfocus();
-                      final form = _formKey.currentState;
-                      form!.save();
-                      if (form.validate()) {
-                        try {
-                          await controller.signup(
-                              _emailController.text, _passwordController.text);
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error $e')),
-                          );
-                        }
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton.tonal(
+                          key: const Key('signUpSubmit'),
+                          child: const Text("Submit"),
+                          onPressed: () async {
+                            // Dismiss the keyboard
+                            FocusScope.of(context).unfocus();
+                            final form = _formKey.currentState;
+                            form!.save();
+                            if (form.validate()) {
+                              try {
+                                await controller.signup(_emailController.text,
+                                    _passwordController.text);
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Error $e')),
+                                );
+                              }
 
-                        Get.back();
-                      }
-                    }),
+                              Get.back();
+                            }
+                          }),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

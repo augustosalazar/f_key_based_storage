@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/auth_controller.dart';
-import '../../../widgets/responsive_widget.dart';
+import '../../controllers/auth_controller.dart';
+import '../../widgets/responsive_widget.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,7 +46,12 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   key: const Key('loginEmail'),
                   controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(
+                    labelText: "Email address",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Enter email";
@@ -60,7 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   key: const Key('loginPassword'),
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: "Password"),
+                  decoration: const InputDecoration(
+                    labelText: "Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
                   keyboardType: TextInputType.number,
                   obscureText: true,
                   validator: (value) {
@@ -73,28 +83,35 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  key: const Key('loginSubmit'),
-                  onPressed: () async {
-                    // dismiss keyboard
-                    FocusScope.of(context).unfocus();
-                    final form = _formKey.currentState;
-                    if (form!.validate()) {
-                      try {
-                        await controller.login(
-                            _emailController.text, _passwordController.text);
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error $e')),
-                        );
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Validation nok')));
-                    }
-                  },
-                  child: const Text("Submit"),
-                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton.tonal(
+                        key: const Key('loginSubmit'),
+                        onPressed: () async {
+                          // dismiss keyboard
+                          FocusScope.of(context).unfocus();
+                          final form = _formKey.currentState;
+                          if (form!.validate()) {
+                            try {
+                              await controller.login(_emailController.text,
+                                  _passwordController.text);
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Error $e')),
+                              );
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Validation nok')));
+                          }
+                        },
+                        child: const Text("Login"),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

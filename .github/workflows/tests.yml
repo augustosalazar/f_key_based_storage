@@ -5,33 +5,26 @@ on:
     branches: ["master", "main"]
 
 jobs:
-  Android:
+  android:
     name: Android Integration Tests
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out your code
       - uses: actions/checkout@v4
 
-      # 2. Install Flutter (includes Android SDK)
+      # 1. Install Flutter (and set up ANDROID_HOME)
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
 
-      # 3. Accept Android SDK licenses
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
-
-      # 4. Get Dart & Flutter dependencies
-      - name: Install dependencies
-        run: flutter pub get
-
-      # 5. Start an Android emulator and run your tests
-      - name: Run integration tests on Android
-        uses: reactivecircus/android-emulator-runner@v2
+      # 2. Boot an Android emulator, install any missing SDK pieces & licenses,
+      #    then run your Flutter integration tests:
+      - uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30 # pick your minimum supported API level
-          target: google_apis # or "default" if you don’t need Google Play services
+          api-level: 30
+          target: google_apis
           arch: x86_64
-          emulator-options: -no-window # headless emulator
-          script: flutter test integration_test/app_test.dart
+          emulator-options: -no-window
+          script: |
+            flutter pub get
+            flutter test integration_test/app_test.dart

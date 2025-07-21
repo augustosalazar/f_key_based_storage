@@ -2,52 +2,36 @@ name: test-my-app
 
 on:
   push:
-    branches: [ "master" , "main" ]
-  
+    branches: ["master", "main"]
+
 jobs:
-  IOS:
-    runs-on: macOS-latest
+  Android:
+    name: Android Integration Tests
+    runs-on: ubuntu-latest
 
     steps:
+      # 1. Check out your code
       - uses: actions/checkout@v4
 
-      - uses: futureware-tech/simulator-action@v3
-        with:
-          model: 'iPhone 14'
-
+      # 2. Install Flutter (includes Android SDK)
       - uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
 
-      - run: flutter pub get
-      - run: flutter test integration_test/app_test.dart
+      # 3. Accept Android SDK licenses
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
 
+      # 4. Get Dart & Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
 
-
-  # integration-test:
-  #   name: Run Smoke Tests
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: 📚 Git Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: 🦋 Setup Flutter
-  #       uses: subosito/flutter-action@v2
-  #       with:
-  #         channel: "stable"
-  #         cache: true
-
-  #     - name: 🌐 Flutter Enable Web
-  #       run: flutter config --enable-web
-
-  #     - name: 🚀 Install Chrome and ChromeDriver
-  #       run: |
-  #         brew install --cask google-chrome
-  #         brew install chromedriver
-
-  #     - name: 🔄 Start ChromeDriver
-  #       run: chromedriver --port=4444 &      
-
-  #     - name: 🧪 Run Integration test
-  #       run: |
-  #         flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --release --browser-name=chrome
+      # 5. Start an Android emulator and run your tests
+      - name: Run integration tests on Android
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30 # pick your minimum supported API level
+          target: google_apis # or "default" if you don’t need Google Play services
+          arch: x86_64
+          emulator-options: -no-window # headless emulator
+          script: flutter test integration_test/app_test.dart

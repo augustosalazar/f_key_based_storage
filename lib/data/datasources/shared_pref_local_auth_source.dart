@@ -1,10 +1,12 @@
 import 'package:f_shared_prefs/domain/entities/user.dart';
+import 'package:get/get.dart';
 
+import '../../core/i_local_preferences.dart';
 import 'i_local_auth_source.dart';
-import '../../core/local_preferences.dart';
+import '../../core/local_preferences_shared.dart';
 
 class SharedPrefLocalAuthSource implements ILocalAuthSource {
-  final _sharedPreferences = LocalPreferences();
+  final ILocalPreferences _sharedPreferences = Get.find();
 
   @override
   Future<String> getLoggedUser() async {

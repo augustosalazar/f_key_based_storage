@@ -1,3 +1,6 @@
+import 'package:f_shared_prefs/core/i_local_preferences.dart';
+import 'package:f_shared_prefs/core/local_preferences_secured.dart';
+import 'package:f_shared_prefs/core/local_preferences_shared.dart';
 import 'package:f_shared_prefs/data/datasources/i_local_auth_source.dart';
 import 'package:f_shared_prefs/data/datasources/shared_pref_local_auth_source.dart';
 import 'package:f_shared_prefs/data/repositories/auth_repo.dart';
@@ -12,6 +15,8 @@ import 'package:integration_test/integration_test.dart';
 
 Future<Widget> createHomeScreen() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //Get.put<ILocalPreferences>(LocalPreferencesShared());
+  Get.put<ILocalPreferences>(LocalPreferencesSecured());
   Get.put<ILocalAuthSource>(SharedPrefLocalAuthSource());
   Get.put<IAuthRepo>(AuthRepo(Get.find()));
   Get.put(AuthUseCase(Get.find()));
@@ -26,6 +31,8 @@ void main() {
     Widget w = await createHomeScreen();
     await tester.pumpWidget(w);
 
+    await tester.pumpAndSettle(Durations.extralong4);
+
     //verify that we are in login page
     expect(find.byKey(const Key('loginScaffold')), findsOneWidget);
 
@@ -34,7 +41,7 @@ void main() {
     // go to sign in
     await tester.tap(find.byKey(const Key('loginCreateUser')));
 
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(Durations.extralong4);
 
     //verify that we are in signup page
     expect(find.byKey(const Key('signUpScaffold')), findsOneWidget);
@@ -45,7 +52,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('signUpSubmit')));
 
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(Durations.extralong4);
 
     //expect(find.text('User ok'), findsOneWidget);
 
@@ -59,7 +66,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('loginSubmit')));
 
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(Durations.extralong4);
 
     await tester.enterText(find.byKey(const Key('loginEmail')), 'a@a.com');
 
@@ -67,7 +74,10 @@ void main() {
 
     await tester.tap(find.byKey(const Key('loginSubmit')));
 
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(Durations.extralong4);
+    await tester.pumpAndSettle(Durations.extralong4);
+    await tester.pumpAndSettle(Durations.extralong4);
+    await tester.pumpAndSettle(Durations.extralong4);
 
     //verify that we are in content page
     expect(find.byKey(const Key('contentScaffold')), findsOneWidget);
@@ -89,7 +99,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('loginSubmit')));
 
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(Durations.extralong4);
 
     //verify that we are in content page
     expect(find.byKey(const Key('contentScaffold')), findsOneWidget);

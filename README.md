@@ -4,7 +4,7 @@ Implementation of the f_key_based_storage_template
 
 This is a Flutter project that demonstrates the use of key based storage with:
 
-- [Shared prefs](https://pub.dev/packages/shared_preferences) Shared preferences
+- [Shared prefs](https://pub.dev/packages/shared_preferences) 
 - [Secured storage](https://pub.dev/packages/flutter_secure_storage)
  
 For a single user authentication flow. It includes a login page, home page using GetX for state management.

@@ -97,9 +97,11 @@ class _LoginPageState extends State<LoginPage> {
                               await controller.login(_emailController.text,
                                   _passwordController.text);
                             } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Error $e')),
-                              );
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Error $e')),
+                                );
+                              }
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

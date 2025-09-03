@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 import 'core/i_local_preferences.dart';
-import 'core/local_preferences_shared.dart';
 import 'data/datasources/i_local_auth_source.dart';
-import 'data/datasources/shared_pref_local_auth_source.dart';
+import 'data/datasources/simple_local_auth_source.dart';
 import 'data/repositories/auth_repo.dart';
 import 'domain/use_case/auth_use_case.dart';
 import 'ui/controllers/auth_controller.dart';
@@ -23,7 +22,7 @@ void main() {
 
   //Get.put<ILocalPreferences>(LocalPreferencesShared());
   Get.put<ILocalPreferences>(LocalPreferencesSecured());
-  Get.put<ILocalAuthSource>(SharedPrefLocalAuthSource());
+  Get.put<ILocalAuthSource>(SimpleLocalAuthSource());
   Get.put<IAuthRepo>(AuthRepo(Get.find()));
   Get.put(AuthUseCase(Get.find()));
   Get.put(AuthController(Get.find()));

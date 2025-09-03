@@ -2,7 +2,7 @@ import 'package:f_shared_prefs/core/i_local_preferences.dart';
 import 'package:f_shared_prefs/core/local_preferences_secured.dart';
 import 'package:f_shared_prefs/core/local_preferences_shared.dart';
 import 'package:f_shared_prefs/data/datasources/i_local_auth_source.dart';
-import 'package:f_shared_prefs/data/datasources/shared_pref_local_auth_source.dart';
+import 'package:f_shared_prefs/data/datasources/simple_local_auth_source.dart';
 import 'package:f_shared_prefs/data/repositories/auth_repo.dart';
 import 'package:f_shared_prefs/domain/repositories/i_auth_repo.dart';
 import 'package:f_shared_prefs/domain/use_case/auth_use_case.dart';
@@ -17,7 +17,7 @@ Future<Widget> createHomeScreenSecured() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.deleteAll();
   Get.put<ILocalPreferences>(LocalPreferencesSecured());
-  Get.put<ILocalAuthSource>(SharedPrefLocalAuthSource());
+  Get.put<ILocalAuthSource>(SimpleLocalAuthSource());
   Get.put<IAuthRepo>(AuthRepo(Get.find()));
   Get.put(AuthUseCase(Get.find()));
   Get.put(AuthController(Get.find()));
@@ -28,7 +28,7 @@ Future<Widget> createHomeScreenShared() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.deleteAll();
   Get.put<ILocalPreferences>(LocalPreferencesShared());
-  Get.put<ILocalAuthSource>(SharedPrefLocalAuthSource());
+  Get.put<ILocalAuthSource>(SimpleLocalAuthSource());
   Get.put<IAuthRepo>(AuthRepo(Get.find()));
   Get.put(AuthUseCase(Get.find()));
   Get.put(AuthController(Get.find()));

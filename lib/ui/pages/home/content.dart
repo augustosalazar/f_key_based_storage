@@ -40,7 +40,7 @@ class _ContentState extends State<Content> {
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.shade200,
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: const Offset(0, 3), // Shadow position

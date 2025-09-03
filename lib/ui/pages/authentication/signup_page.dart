@@ -100,9 +100,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 await controller.signup(_emailController.text,
                                     _passwordController.text);
                               } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Error $e')),
-                                );
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Error $e')),
+                                  );
+                                }
                               }
 
                               Get.back();

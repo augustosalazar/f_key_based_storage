@@ -1,7 +1,7 @@
-import 'package:f_shared_prefs/data/repositories/auth_repo.dart';
-import 'package:f_shared_prefs/domain/entities/user.dart';
-import 'package:f_shared_prefs/domain/repositories/i_auth_repo.dart';
-import 'package:f_shared_prefs/domain/use_case/auth_use_case.dart';
+import 'package:f_shared_prefs/features/auth/data/repositories/auth_repo.dart';
+import 'package:f_shared_prefs/features/auth/domain/entities/user.dart';
+import 'package:f_shared_prefs/features/auth/domain/repositories/i_auth_repo.dart';
+import 'package:f_shared_prefs/features/auth/domain/use_case/auth_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
